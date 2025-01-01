@@ -1,1 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Answer Validator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        input {
+            margin-bottom: 10px;
+        }
+        button {
+            display: block;
+            margin-top: 10px;
+        }
+        #results {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Image Answer Validator</h1>
+        <form id="exam-form" enctype="multipart/form-data">
+            <label for="q1">Upload Answer for Q1:</label><br>
+            <input type="file" id="q1" name="Q1" accept="image/*"><br>
+            
+            <label for="q2">Upload Answer for Q2:</label><br>
+            <input type="file" id="q2" name="Q2" accept="image/*"><br>
+            
+            <button type="button" onclick="submitForm()">Submit Answers</button>
+        </form>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        async function submitForm() {
+            const formData = new FormData(document.getElementById('exam-form'));
+
+            const response = await fetch('/validate', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = JSON.stringify(result, null, 2);
+        }
+    </script>
+</body>
+</html>
 
